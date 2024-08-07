@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./client
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "4001:${PORT}"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    container_name: petProjectBD
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: always
+
+  redis:
+    image: redis:alpine3.14
+    container_name: redis-petProject
+    ports:
+      - "6379:6379"
