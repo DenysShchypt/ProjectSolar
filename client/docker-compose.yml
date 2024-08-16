@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  frontend:
+    build: .
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+
+  
