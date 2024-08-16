@@ -1,0 +1,49 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+   previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Provider {
+  GOOGLE
+}
+
+model User {
+  id             String         @id @default(uuid())
+  email          String         @unique @db.VarChar(45)
+  firstName      String
+  lastName       String?
+  password       String?
+  passwordRepeat String?
+  provider       Provider?
+  providerId     String?
+  verifyLink     String?
+  wallet         Float          @default(0)
+  createAt       DateTime       @default(now()) @map("created_at")
+  updateAt       DateTime       @default(now()) @map("updated_at")
+  picture        String?
+  roles          Role[]
+  Token          Token[]
+  @@map("users")
+}
+
+model Token {
+  token     String   @unique
+  exp       DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  userAgent String   @map("user_agent")
+
+  @@map("tokens")
+}

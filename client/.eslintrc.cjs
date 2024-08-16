@@ -22,8 +22,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
     project: [
-      "${workspaceFolder}/frontend/tsconfig.app.json",
-      "${workspaceFolder}/frontend/tsconfig.node.json",
+     "./tsconfig.json"
     ],
   },
   rules: {
@@ -48,10 +47,10 @@ module.exports = {
       version: "detect",
     },
   },
-  overrides: [
-    {
-      files: ["src/**/*.js", "src/**/*.jsx"],
-      extends: ["eslint-config-react-app"],
-    },
-  ],
+  // overrides: [
+  //   {
+  //     files: ["src/**/*.js", "src/**/*.jsx"],
+  //     extends: ["eslint-config-react-app"],
+  //   },
+  // ],
 };
