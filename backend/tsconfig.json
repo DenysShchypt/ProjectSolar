@@ -9,13 +9,23 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "strict": true,
+  },
+  "include": ["./**/*","src/**/*.ts", "./types.d.ts","prisma/**/*.ts"],
+  "exclude": ["node_modules","dist"],
 }
