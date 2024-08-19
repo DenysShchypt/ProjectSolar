@@ -28,8 +28,7 @@ model User {
   passwordRepeat String?
   provider       Provider?
   providerId     String?
-  verifyLink     String?
-  wallet         Float          @default(0)
+  verifyLink     Boolean
   createAt       DateTime       @default(now()) @map("created_at")
   updateAt       DateTime       @default(now()) @map("updated_at")
   picture        String?
