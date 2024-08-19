@@ -33,7 +33,7 @@ export class RegisterDTO {
   })
   lastName: string;
 
-  @ApiProperty({ example: 'john@example.com' })
+  @ApiProperty({ example: 'Denys@example.com' })
   @IsNotEmpty()
   @IsString()
   @IsEmail()

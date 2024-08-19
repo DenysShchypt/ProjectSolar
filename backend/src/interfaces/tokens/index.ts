@@ -1,0 +1,34 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDate, IsString } from 'class-validator';
+
+export class IRefreshToken {
+  @ApiProperty({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
+  @IsString()
+  token: string;
+
+  @ApiProperty({ example: '2024-07-11T23:59:59Z' })
+  @IsDate()
+  exp: Date;
+
+  @ApiProperty({ example: '2a75219e-1d14-4497-ab63-b80d91e9410e' })
+  @IsString()
+  userId: string;
+
+  @ApiProperty({
+    example:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+  })
+  @IsString()
+  userAgent: string;
+}
+
+export class ITokenResponse {
+  @ApiProperty({
+    example:
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiZGVueXNzb3JAZGVuLmNvbSIsImZpcnN0TmFtZSI6IkRlcnNuIiwibGFzdE5hbWUiOiJEcmVmc2doanIiLCJpZCI6ImFlZTM3ZTA0LWQzODQtNDMyYi04M2ExLWE0YzRiODM0YWJiMiIsInJvbGVzIjpbIlVTRVIiXX0sImlhdCI6MTcyMTI0MDU5OCwiZXhwIjoxNzIxMjQxMTk4fQ.2NOCXEailgy_dhP5iWU-EusidgjlWCf6FgCme_m11cM',
+  })
+  @IsString()
+  accuseToken: string;
+  @ApiProperty({ type: IRefreshToken })
+  refreshToken: IRefreshToken;
+}

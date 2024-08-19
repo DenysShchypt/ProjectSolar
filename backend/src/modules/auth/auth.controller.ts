@@ -1,20 +1,22 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { OAuth2Client } from 'google-auth-library';
+// import { OAuth2Client } from 'google-auth-library';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDTO } from './dto';
 import { UserAgent } from '../../../libs/decorators/userAgent.decorator';
 
-const oauth2Client = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_SECRET,
-);
-const REFRESH_TOKEN = 'free-cookie';
+// const oauth2Client = new OAuth2Client(
+//   process.env.GOOGLE_CLIENT_ID,
+//   process.env.GOOGLE_SECRET,
+// );
+// const REFRESH_TOKEN = 'free-cookie';
 @ApiTags('API')
 @Controller('auth')
 export class AuthController {
+  private static readonly REFRESH_TOKEN = 'free-cookie';
+
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
@@ -28,6 +30,7 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     const newUser = await this.authService.registerUser(dto, agent);
-    res.status(HttpStatus.OK);
+    delete newUser.token.refreshToken;
+    res.status(HttpStatus.OK).json({ ...newUser });
   }
 }
