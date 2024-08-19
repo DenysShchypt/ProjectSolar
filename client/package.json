@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint \"./**/*.{ts,tsx,js,jsx}\" --fix",
     "preview": "vite preview",
-    "format": "prettier --write \"../**/*.{ts,tsx,js,jsx}\""
+    "format": "prettier --write \"../**/*.{ts,tsx,js,jsx}\"",
+    "prisma:generate": "prisma generate",
+    "generate:prisma": "npx prisma migrate dev --name init"
   },
   "dependencies": {
     "@emotion/styled": "^11.13.0",
