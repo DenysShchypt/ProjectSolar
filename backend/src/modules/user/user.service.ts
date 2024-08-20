@@ -75,7 +75,7 @@ export class UserService {
       },
       to: createNewUser.email,
       subject: 'Verify account on WebSolar',
-      html: `<p><strong>Hello ${createNewUser.firstName} ${createNewUser?.lastName}</strong>, you need to confirm your email<a target="_blank" href="${this.configService.get('base_url')}/auth/verify/${createNewUser.verifyLink}">For verify click here</a></p>`,
+      html: `<p><strong>Hello ${createNewUser.firstName} ${createNewUser?.lastName}</strong>, you need to confirm your email<a target="_blank" href="${this.configService.get('base_url')}/auth/verify/${createNewUser.id}">For verify click here</a></p>`,
     };
 
     await sendEmail(verifyEmail);

@@ -10,7 +10,11 @@ import { AuthModule } from 'modules/auth/auth.module';
       isGlobal: true,
       load: [configurations],
     }),
+    // CacheModule.registerAsync({
+    //   useFactory: () => ({ ttl: 900, isGlobal: true }),
+    // }),
     CacheModule.register({
+      ttl: 900,
       isGlobal: true,
     }),
     AuthModule,
