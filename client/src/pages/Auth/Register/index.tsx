@@ -9,8 +9,10 @@ import {
     WrapperRegisterInputs,
     WrapperTextForLink,
 } from "./styled";
+import { IPropsRegister } from "../../../common/types/auth";
 
-const Register: FC = (): JSX.Element => {
+const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
+    const {setFirstName, setLastName, setEmail, setPassword, setRepeatPassword} = props
     return (
         <>
             <RegisterTitle>Registration</RegisterTitle>
@@ -19,22 +21,27 @@ const Register: FC = (): JSX.Element => {
             </RegisterText>
             <WrapperRegisterInputs>
                 <RegisterLabel>
-                    Username
-                    <RegisterInput type="text" placeholder="Name" />
+                    First Name
+                    <RegisterInput type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)}/>
+                </RegisterLabel>
+                <RegisterLabel>
+                    Last Name
+                    <RegisterInput type="text" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} />
                 </RegisterLabel>
                 <RegisterLabel>
                     Email
-                    <RegisterInput type="email" placeholder="Email" />
+                    <RegisterInput type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
                 </RegisterLabel>
                 <RegisterLabel>
                     Password
-                    <RegisterInput type="password" placeholder="Password" />
+                    <RegisterInput type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
                 </RegisterLabel>
                 <RegisterLabel>
                     Confirm password
                     <RegisterInput
                         type="password"
                         placeholder="Confirm password"
+                        onChange={(e) => setRepeatPassword(e.target.value)}
                     />
                 </RegisterLabel>
             </WrapperRegisterInputs>

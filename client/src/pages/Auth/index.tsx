@@ -2,20 +2,35 @@ import { useLocation } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import { AuthContainer, AuthWrapper } from "./styled";
-import React from "react";
+import  { useState } from "react";
+import { FC } from "react";
 import { instance } from "../../utils/axios";
 
-const AuthRootComponent = () => {
+const AuthRootComponent: FC = () : JSX.Element => {
     const location = useLocation();
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-
-    const handleSubmit = async (e:{preventDefault:()=>void}) => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [repeatPassword, setRepeatPassword] = useState(""); 
+    
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        const userData = { name, email, password };
-        const user = await instance.post("auth/register", userData)
+        if (location.pathname === "/login"){
+            // console.log("Login");
+            
+            const userData = { email, password };
+        const user = await instance.post("auth/login", userData)
         console.log(user.data);
+        } else {
+            if (password === repeatPassword){
+                const userData = { firstName, lastName, email, password };
+            const newUser = await instance.post("auth/register", userData)
+            console.log(newUser);
+            } else {
+                throw new Error('Your passwords do not match.')
+            }
+        }
         
     }
     
@@ -23,7 +38,9 @@ const AuthRootComponent = () => {
         <AuthContainer>
             <form onSubmit={handleSubmit}>
             <AuthWrapper>
-            {location.pathname === "/login" ? <Login /> : <Register />}
+                    {location.pathname ===
+                        "/login" ? <Login setEmail={setEmail} setPassword={setPassword} /> 
+                        : <Register setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPassword={setPassword} setRepeatPassword={setRepeatPassword}/>}
             </AuthWrapper>
             </form>
         </AuthContainer>

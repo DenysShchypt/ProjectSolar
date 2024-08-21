@@ -1,19 +1,31 @@
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
-export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
-  navigate: (to: string) => void;
-  register: UseFormRegister<IFormData>;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
+export interface IPropsLogin {
+  setPassword: (value: string) => void
+  setEmail: (value: string) => void
 }
-export interface IPropsRegister<
-  TFieldValues extends IFormDataRegister = IFormDataRegister,
-> {
-  register: UseFormRegister<IFormDataRegister | IFormData>;
-  navigate: (to: string) => void;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
+
+export interface IPropsRegister {
+  setFirstName: (value: string) => void
+  setLastName: (value: string) => void
+  setEmail: (value: string) => void
+  setPassword: (value: string) => void
+  setRepeatPassword: (value: string) => void
 }
+// export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
+//   navigate: (to: string) => void;
+//   register: UseFormRegister<IFormData>;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
+// export interface IPropsRegister<
+//   TFieldValues extends IFormDataRegister = IFormDataRegister,
+// > {
+//   register: UseFormRegister<IFormDataRegister | IFormData>;
+//   navigate: (to: string) => void;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
 
 export interface IAuthState {
   user: IPublicUser;
