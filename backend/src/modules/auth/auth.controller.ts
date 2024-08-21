@@ -13,9 +13,13 @@ import { ConfigService } from '@nestjs/config';
 // import { OAuth2Client } from 'google-auth-library';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
-import { RegisterDTO } from './dto';
+import { LoginDTO, RegisterDTO } from './dto';
 import { UserAgent } from '../../../libs/decorators/userAgent.decorator';
-import { ResponseRegister } from './responses';
+import {
+  ResponseLogin,
+  ResponseRegister,
+  ResponseRegisterVerify,
+} from './responses';
 import { IUserAndTokens } from 'interfaces/auth';
 
 // const oauth2Client = new OAuth2Client(
@@ -45,6 +49,7 @@ export class AuthController {
     res.status(HttpStatus.OK).json({ ...newUser });
   }
 
+  @ApiResponse({ status: 200, type: ResponseRegisterVerify })
   @Get('verify/:id')
   async verifyUser(
     @Param('id') id: string,
@@ -53,6 +58,17 @@ export class AuthController {
   ): Promise<void> {
     const addRefreshTokenToUser = await this.authService.verifyUser(id, agent);
     this.setRefreshTokenToCookiesAfterVerify(addRefreshTokenToUser, res);
+  }
+  @ApiResponse({ status: 200, type: ResponseLogin })
+  @Post('login')
+  async login(
+    @Body() dto: LoginDTO,
+    @UserAgent() agent: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const user = await this.authService.login(dto, agent);
+
+    this.setRefreshTokenToCookies(user, res);
   }
 
   private setRefreshTokenToCookiesAfterVerify(
@@ -72,5 +88,23 @@ export class AuthController {
       },
     );
     res.redirect(this.configService.get('base_url_client'));
+  }
+  private setRefreshTokenToCookies(
+    userAndToken: IUserAndTokens,
+    res: Response,
+  ): void {
+    if (!userAndToken) throw new UnauthorizedException();
+    res.cookie(
+      AuthController.REFRESH_TOKEN,
+      userAndToken.token.refreshToken.token,
+      {
+        expires: new Date(userAndToken.token.refreshToken.exp),
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        path: '/',
+      },
+    );
+    res.status(HttpStatus.OK).json({ ...userAndToken });
   }
 }
