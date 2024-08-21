@@ -12,7 +12,7 @@ import {
 import { IPropsRegister } from "../../../common/types/auth";
 
 const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
-    const {setFirstName, setLastName, setEmail, setPassword, setRepeatPassword} = props
+    const {setFirstName, setLastName, setEmail, setPassword, setPasswordRepeat} = props
     return (
         <>
             <RegisterTitle>Registration</RegisterTitle>
@@ -41,7 +41,7 @@ const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
                     <RegisterInput
                         type="password"
                         placeholder="Confirm password"
-                        onChange={(e) => setRepeatPassword(e.target.value)}
+                        onChange={(e) => setPasswordRepeat(e.target.value)}
                     />
                 </RegisterLabel>
             </WrapperRegisterInputs>

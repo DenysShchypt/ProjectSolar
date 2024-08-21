@@ -12,20 +12,18 @@ const AuthRootComponent: FC = () : JSX.Element => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [repeatPassword, setRepeatPassword] = useState(""); 
+    const [passwordRepeat, setPasswordRepeat] = useState(""); 
     
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         if (location.pathname === "/login"){
-            // console.log("Login");
-            
             const userData = { email, password };
-        const user = await instance.post("auth/login", userData)
+        const user = await instance.post("/auth/login", userData)
         console.log(user.data);
         } else {
-            if (password === repeatPassword){
-                const userData = { firstName, lastName, email, password };
-            const newUser = await instance.post("auth/register", userData)
+            if (password === passwordRepeat){
+                const userData = { firstName, lastName, email, password, passwordRepeat };
+            const newUser = await instance.post("/auth/register", userData)
             console.log(newUser);
             } else {
                 throw new Error('Your passwords do not match.')
@@ -40,7 +38,7 @@ const AuthRootComponent: FC = () : JSX.Element => {
             <AuthWrapper>
                     {location.pathname ===
                         "/login" ? <Login setEmail={setEmail} setPassword={setPassword} /> 
-                        : <Register setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPassword={setPassword} setRepeatPassword={setRepeatPassword}/>}
+                        : <Register setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPassword={setPassword} setPasswordRepeat={setPasswordRepeat}/>}
             </AuthWrapper>
             </form>
         </AuthContainer>

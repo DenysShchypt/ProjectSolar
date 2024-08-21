@@ -10,7 +10,7 @@ export interface IPropsRegister {
   setLastName: (value: string) => void
   setEmail: (value: string) => void
   setPassword: (value: string) => void
-  setRepeatPassword: (value: string) => void
+  setPasswordRepeat: (value: string) => void
 }
 // export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
 //   navigate: (to: string) => void;
