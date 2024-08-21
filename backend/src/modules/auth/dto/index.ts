@@ -25,7 +25,7 @@ export class RegisterDTO {
   firstName: string;
 
   @ApiProperty({ example: 'Developer' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Length(3, 20)
   @IsAlpha('en-US', {
@@ -57,11 +57,13 @@ export class RegisterDTO {
   passwordRepeat?: string;
 
   @ApiPropertyOptional({ example: 'GOOGLE', enum: Provider })
+  @ValidateIf((o) => o.provider === 'GOOGLE')
   @IsEnum(Provider)
   @IsOptional()
   provider?: Provider;
 
   @ApiPropertyOptional({ example: '46478642345867234548645' })
+  @ValidateIf((o) => o.provider === 'GOOGLE')
   @IsString()
   @IsOptional()
   providerId?: string;
@@ -70,6 +72,7 @@ export class RegisterDTO {
     example:
       'https://lh3.googleusercontent.com/a/ACg8ocJ-OcEr6cr50Ak6Sz7LGMK6MXRH44O0ULhXbAtpn6lMa0OGlgQ=s96-c',
   })
+  @ValidateIf((o) => o.provider === 'GOOGLE')
   @IsString()
   @IsOptional()
   picture?: string;
