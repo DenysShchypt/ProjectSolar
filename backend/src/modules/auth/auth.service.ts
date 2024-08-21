@@ -79,17 +79,7 @@ export class AuthService {
   }
 
   async login(dto: LoginDTO, agent: string): Promise<ResponseLogin> {
-    const user = await this.prismaService.user
-      .findFirst({
-        where: {
-          email: dto.email,
-        },
-      })
-      .catch((error) => {
-        this.logger.error(`${AppError.ERROR_LOGIN_USER}:${error.message}`);
-      });
-
-    if (!user) throw new BadRequestException(AppError.USER_NOT_FOUND);
+    const user = await this.userService.getUserByEmailOrId(dto.email, true);
     if (!user.verifyLink)
       throw new BadRequestException(AppError.VERIFY_DOES_NOT_VERIFY);
     const isPasswordValid = await bcryptjs.compare(dto.password, user.password);

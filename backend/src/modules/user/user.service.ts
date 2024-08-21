@@ -11,11 +11,15 @@ import { AppError } from 'common/constants/errors';
 import { RegisterDTO } from 'modules/auth/dto';
 import { PrismaService } from 'modules/prisma/prisma.service';
 import { Role } from '@prisma/client';
-import { USER_SELECT_FIELDS } from 'common/constants/select-return';
+import {
+  USER_ALL_INFO,
+  USER_SELECT_FIELDS,
+} from 'common/constants/select-return';
 import { ConfigService } from '@nestjs/config';
 import sendEmail from '../../../libs/helpers/nodemailer';
 import { ResponseCreateNewUser } from './responses';
-import { INewUser } from 'interfaces/user';
+import { INewUser, IUser } from 'interfaces/user';
+import validator from 'validator';
 
 @Injectable()
 export class UserService {
@@ -25,6 +29,10 @@ export class UserService {
     private readonly configService: ConfigService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+
+  private async isValidUuid(val: string): Promise<boolean> {
+    return validator.isUUID(val);
+  }
 
   async createUser(dto: RegisterDTO): Promise<ResponseCreateNewUser> {
     const checkUserInDB = await this.prismaService.user.findUnique({
@@ -82,5 +90,33 @@ export class UserService {
     await this.cacheManager.set(createNewUser.id, createNewUser);
     await this.cacheManager.set(createNewUser.email, createNewUser);
     return createNewUser;
+  }
+
+  async getUserByEmailOrId(emailOrId: string, isReset: boolean = false) {
+    if (isReset) {
+      await this.cacheManager.del(emailOrId);
+    }
+
+    const userCache: IUser = await this.cacheManager.get(emailOrId);
+
+    if (!userCache) {
+      const user: IUser = await this.prismaService.user
+        .findFirst({
+          where: (await this.isValidUuid(emailOrId))
+            ? { id: emailOrId }
+            : { email: emailOrId },
+          select: (await this.isValidUuid(emailOrId))
+            ? USER_SELECT_FIELDS
+            : USER_ALL_INFO,
+        })
+        .catch((error) => {
+          this.logger.error(`${AppError.ERROR_DB}:${error.message}`);
+          return null;
+        });
+      if (!user) throw new BadRequestException(AppError.USER_NOT_FOUND);
+      await this.cacheManager.set(emailOrId, user);
+      return user;
+    }
+    return userCache;
   }
 }

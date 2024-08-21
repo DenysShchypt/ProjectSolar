@@ -21,12 +21,13 @@ import {
   ResponseRegisterVerify,
 } from './responses';
 import { IUserAndTokens } from 'interfaces/auth';
+import { Cookies } from '../../../libs/decorators/cookies.decorator';
+import { TokenService } from 'modules/token/token.service';
 
 // const oauth2Client = new OAuth2Client(
 //   process.env.GOOGLE_CLIENT_ID,
 //   process.env.GOOGLE_SECRET,
 // );
-// const REFRESH_TOKEN = 'free-cookie';
 @ApiTags('API')
 @Controller('auth')
 export class AuthController {
@@ -35,6 +36,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
+    private readonly tokenService: TokenService,
   ) {}
 
   @ApiResponse({ status: 201, type: ResponseRegister })
@@ -67,6 +69,19 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     const user = await this.authService.login(dto, agent);
+
+    this.setRefreshTokenToCookies(user, res);
+  }
+  @ApiResponse({ status: 200 })
+  @Post('refresh-token')
+  async refreshToken(
+    @Cookies(AuthController.REFRESH_TOKEN) refreshToken: string,
+    @UserAgent()
+    agent: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    if (!refreshToken) throw new UnauthorizedException();
+    const user = await this.tokenService.refreshToken(refreshToken, agent);
 
     this.setRefreshTokenToCookies(user, res);
   }

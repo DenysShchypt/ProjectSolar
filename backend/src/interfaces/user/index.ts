@@ -13,3 +13,4 @@ export interface INewUser {
   picture?: string;
   roles: $Enums.Role[];
 }
+export interface IUser extends INewUser {}
