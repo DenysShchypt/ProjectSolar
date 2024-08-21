@@ -5,8 +5,13 @@ import { PrismaService } from 'modules/prisma/prisma.service';
 import { UserService } from 'modules/user/user.service';
 import { TokenService } from 'modules/token/token.service';
 import { AppError } from 'common/constants/errors';
-import { RegisterDTO } from './dto';
-import { ResponseRegister, ResponseRegisterVerify } from './responses';
+import * as bcryptjs from 'bcryptjs';
+import { LoginDTO, RegisterDTO } from './dto';
+import {
+  ResponseLogin,
+  ResponseRegister,
+  ResponseRegisterVerify,
+} from './responses';
 import { USER_SELECT_FIELDS } from 'common/constants/select-return';
 
 @Injectable()
@@ -66,11 +71,40 @@ export class AuthService {
       lastName: verifyUser?.lastName,
       id: verifyUser.id,
       roles: verifyUser.roles,
-      provider: verifyUser?.provider,
     };
 
     const token = await this.tokenService.generateTokens(payload, agent);
 
     return { ...verifyUser, token };
+  }
+
+  async login(dto: LoginDTO, agent: string): Promise<ResponseLogin> {
+    const user = await this.prismaService.user
+      .findFirst({
+        where: {
+          email: dto.email,
+        },
+      })
+      .catch((error) => {
+        this.logger.error(`${AppError.ERROR_LOGIN_USER}:${error.message}`);
+      });
+
+    if (!user) throw new BadRequestException(AppError.USER_NOT_FOUND);
+    if (!user.verifyLink)
+      throw new BadRequestException(AppError.VERIFY_DOES_NOT_VERIFY);
+    const isPasswordValid = await bcryptjs.compare(dto.password, user.password);
+    if (!isPasswordValid) throw new BadRequestException(AppError.WRONG_DATA);
+
+    const payload = {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user?.lastName,
+      id: user.id,
+      roles: user.roles,
+    };
+
+    const token = await this.tokenService.generateTokens(payload, agent);
+
+    return { ...user, token };
   }
 }

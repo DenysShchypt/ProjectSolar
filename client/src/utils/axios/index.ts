@@ -5,13 +5,13 @@ import axios, {
 } from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://projectsolar.onrender.com/api",
+  baseURL: "http://localhost:4004/api",
   timeout: 1000,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
 export const instanceAuth = axios.create({
-  baseURL: "https://projectsolar.onrender.com/api",
+  baseURL: "http://localhost:4004/api",
 });
 
 instanceAuth.interceptors.request.use(

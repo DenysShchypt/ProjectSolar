@@ -53,3 +53,4 @@ export class ResponseRegisterVerify extends ResponseCreateNewUser {
   @ApiProperty({ type: ResponseTokens })
   token: ResponseTokens;
 }
+export class ResponseLogin extends ResponseRegisterVerify {}
