@@ -45,11 +45,12 @@ class ResponseTokens {
 }
 
 export class ResponseRegister extends ResponseCreateNewUser {
-  @ApiProperty({ type: () => ResponseAccuseToken })
+  @ApiProperty({ type: ResponseAccuseToken })
   token: ResponseAccuseToken;
 }
 
 export class ResponseRegisterVerify extends ResponseCreateNewUser {
-  @ApiProperty({ type: () => ResponseTokens })
+  @ApiProperty({ type: ResponseTokens })
   token: ResponseTokens;
 }
+export class ResponseLogin extends ResponseRegisterVerify {}
