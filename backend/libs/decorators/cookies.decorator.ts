@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const Cookies = createParamDecorator(
+export const Cookies = createParamDecorator<string>(
   (data: string, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     return data && data in request.cookies

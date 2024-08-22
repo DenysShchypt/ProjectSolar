@@ -6,6 +6,7 @@ export const AppError = {
   INVALID_CREDENTIALS: 'Invalid credentials',
   INVALID_TOKEN: 'Invalid token',
   TOKEN_NOT_FOUND: 'Token not found',
+  ERROR_DB: 'Error during request to database',
   USER_NOT_FOUND: 'User not found',
   WRONG_DATA: 'Wrong data',
   ASSET_NOT_FOUND: 'Asset not found',
@@ -16,5 +17,4 @@ export const AppError = {
   ASSET_ALREADY_EXISTS: 'Asset already exists',
   VERIFY_TOKEN_NOT_FOUND: 'Verify value not found',
   VERIFY_DOES_NOT_VERIFY: 'User needs to verify the account',
-  ERROR_LOGIN_USER: 'Error during login database',
 };
