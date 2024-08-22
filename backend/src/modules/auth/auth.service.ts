@@ -8,7 +8,7 @@ import { AppError } from 'common/constants/errors';
 import * as bcryptjs from 'bcryptjs';
 import { LoginDTO, RegisterDTO } from './dto';
 import { USER_SELECT_FIELDS } from 'common/constants/select-return';
-import { IUserAndAccuseToken, IUserAndTokens } from 'interfaces/auth';
+import { IUserAndTokens } from 'interfaces/auth';
 
 @Injectable()
 export class AuthService {
@@ -25,10 +25,7 @@ export class AuthService {
     );
   }
 
-  async registerUser(
-    dto: RegisterDTO,
-    agent: string,
-  ): Promise<IUserAndAccuseToken> {
+  async registerUser(dto: RegisterDTO, agent: string): Promise<IUserAndTokens> {
     const newUser = await this.userService.createUser(dto);
 
     const payload = {
@@ -40,7 +37,6 @@ export class AuthService {
     };
 
     const token = await this.tokenService.generateTokens(payload, agent);
-    delete token.refreshToken;
 
     return { ...newUser, token };
   }

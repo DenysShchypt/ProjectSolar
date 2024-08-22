@@ -27,7 +27,7 @@ export class LoginDTO {
   @IsString()
   @Length(10, 20)
   @Matches(/^.*$/, { message: 'Field must contain any characters' })
-  password: string;
+  password?: string;
 }
 
 export class RegisterDTO extends LoginDTO {
@@ -56,7 +56,7 @@ export class RegisterDTO extends LoginDTO {
   @Length(10, 20)
   @Matches(/^.*$/, { message: 'Field must contain any characters' })
   @Validate(IsPasswordsMatching)
-  passwordRepeat: string;
+  passwordRepeat?: string;
 
   // @ApiPropertyOptional({ example: 'GOOGLE', enum: Provider })
   @ValidateIf((o) => o.provider === 'GOOGLE')
