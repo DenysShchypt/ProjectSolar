@@ -1,5 +1,5 @@
-import * as yup from "yup";
-import { AppError } from "../../common/errors";
+import * as yup from 'yup';
+import { AppError } from '../../common/errors';
 export const LoginSchema = yup.object().shape({
   email: yup
     .string()
@@ -32,7 +32,7 @@ export const RegisterSchema = yup.object().shape({
   passwordRepeat: yup
     .string()
     .oneOf(
-      [yup.ref("password"), undefined],
+      [yup.ref('password'), undefined],
       AppError.WRONG_PASSWORD_DO_NOT_MATCH,
     )
     .required(AppError.Required_password)

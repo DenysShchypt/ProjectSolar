@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const AuthContainer = styled.div`
   display: flex;
@@ -10,17 +10,16 @@ export const AuthContainer = styled.div`
 `;
 
 export const AuthWrapper = styled.div`
- display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   max-width: 640px;
-  height:100%;
+  height: 100%;
 
   margin: auto;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 5px 5px 10px #ccc;
 `;
-

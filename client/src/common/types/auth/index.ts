@@ -1,16 +1,16 @@
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 export interface IPropsLogin {
-  setPassword: (value: string) => void
-  setEmail: (value: string) => void
+  setPassword: (value: string) => void;
+  setEmail: (value: string) => void;
 }
 
 export interface IPropsRegister {
-  setFirstName: (value: string) => void
-  setLastName: (value: string) => void
-  setEmail: (value: string) => void
-  setPassword: (value: string) => void
-  setPasswordRepeat: (value: string) => void
+  setFirstName: (value: string) => void;
+  setLastName: (value: string) => void;
+  setEmail: (value: string) => void;
+  setPassword: (value: string) => void;
+  setPasswordRepeat: (value: string) => void;
 }
 // export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
 //   navigate: (to: string) => void;
@@ -58,6 +58,6 @@ export interface AuthGoogleData {
 }
 
 enum Role {
-  "ADMIN",
-  "USER",
+  'ADMIN',
+  'USER',
 }

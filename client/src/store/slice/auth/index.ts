@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IAuthState } from "../../../common/types/auth";
+import { createSlice } from '@reduxjs/toolkit';
+import { IAuthState } from '../../../common/types/auth';
 
 const initialState: IAuthState = {
   user: {
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
     roles: [],
-    token: "",
-    verifyLink: "",
+    token: '',
+    verifyLink: '',
   },
   isLoading: false,
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setUser(state, action) {

@@ -1,10 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import AuthRootComponent from "../pages/Auth";
+import { Route, Routes } from 'react-router-dom';
+import AuthRootComponent from '../pages/Auth';
 
 function App() {
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Hello team</h1>
+      <h1 style={{ textAlign: 'center' }}>Hello team</h1>
       <Routes>
         {/* <Route element={<Layout />}> */}
 

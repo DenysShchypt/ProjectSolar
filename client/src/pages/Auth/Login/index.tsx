@@ -1,6 +1,15 @@
-import { AccentTextForLink, RegisterInput, RegisterLabel, RegisterText, RegisterTitle, TextForLink, WrapperRegisterInputs, WrapperTextForLink } from "../Register/styled";
-import { IPropsLogin } from "../../../common/types/auth";
-import { FC } from "react";
+import {
+  AccentTextForLink,
+  RegisterInput,
+  RegisterLabel,
+  RegisterText,
+  RegisterTitle,
+  TextForLink,
+  WrapperRegisterInputs,
+  WrapperTextForLink,
+} from '../Register/styled';
+import { IPropsLogin } from '../../../common/types/auth';
+import { FC } from 'react';
 
 const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
   const { setEmail, setPassword } = props;
@@ -41,5 +50,3 @@ const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
 };
 
 export default Login;
-
-

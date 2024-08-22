@@ -2,26 +2,26 @@ import axios, {
   AxiosError,
   AxiosHeaders,
   InternalAxiosRequestConfig,
-} from "axios";
+} from 'axios';
 
 export const instance = axios.create({
-  baseURL: "http://localhost:4004/api",
+  baseURL: 'http://localhost:4004/api',
   timeout: 1000,
-  headers: { "Content-Type": "application/json" },
+  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 export const instanceAuth = axios.create({
-  baseURL: "http://localhost:4004/api",
+  baseURL: 'http://localhost:4004/api',
 });
 
 instanceAuth.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       if (!config.headers) {
         config.headers = new AxiosHeaders();
       }
-      config.headers.set("Authorization", token);
+      config.headers.set('Authorization', token);
     }
     return config;
   },
