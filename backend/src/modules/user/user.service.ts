@@ -17,7 +17,6 @@ import {
 } from 'common/constants/select-return';
 import { ConfigService } from '@nestjs/config';
 import sendEmail from '../../../libs/helpers/nodemailer';
-import { ResponseCreateNewUser } from './responses';
 import { INewUser, IUser } from 'interfaces/user';
 import validator from 'validator';
 
@@ -34,7 +33,7 @@ export class UserService {
     return validator.isUUID(val);
   }
 
-  async createUser(dto: RegisterDTO): Promise<ResponseCreateNewUser> {
+  async createUser(dto: RegisterDTO): Promise<INewUser> {
     const checkUserInDB = await this.prismaService.user.findUnique({
       where: {
         email: dto.email,
@@ -92,7 +91,10 @@ export class UserService {
     return createNewUser;
   }
 
-  async getUserByEmailOrId(emailOrId: string, isReset: boolean = false) {
+  async getUserByEmailOrId(
+    emailOrId: string,
+    isReset: boolean = false,
+  ): Promise<IUser> {
     if (isReset) {
       await this.cacheManager.del(emailOrId);
     }
