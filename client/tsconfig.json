@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext","WebWorker"],
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -9,6 +9,7 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "baseUrl": "./src",
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -17,9 +18,13 @@
     "isolatedModules": false,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
+    "./**/*",
     "src/**/*",
     "types.d.ts",
     "src/**/*.ts",
