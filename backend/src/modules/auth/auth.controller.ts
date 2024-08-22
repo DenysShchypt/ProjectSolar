@@ -17,6 +17,7 @@ import { LoginDTO, RegisterDTO } from './dto';
 import { UserAgent } from '../../../libs/decorators/userAgent.decorator';
 import {
   ResponseLogin,
+  ResponseRefreshTokenAndUser,
   ResponseRegister,
   ResponseRegisterVerify,
 } from './responses';
@@ -72,7 +73,7 @@ export class AuthController {
 
     this.setRefreshTokenToCookies(user, res);
   }
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: ResponseRefreshTokenAndUser })
   @Post('refresh-token')
   async refreshToken(
     @Cookies(AuthController.REFRESH_TOKEN) refreshToken: string,
@@ -97,8 +98,8 @@ export class AuthController {
       {
         expires: new Date(userAndToken.token.refreshToken.exp),
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        // secure: true,
+        sameSite: 'lax',
         path: '/',
       },
     );
@@ -115,8 +116,8 @@ export class AuthController {
       {
         expires: new Date(userAndToken.token.refreshToken.exp),
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        // secure: true,
+        sameSite: 'lax',
         path: '/',
       },
     );

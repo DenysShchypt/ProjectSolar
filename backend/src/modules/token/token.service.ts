@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AppError } from 'common/constants/errors';
 import { add } from 'date-fns';
-import { IUserJWT } from 'interfaces/auth';
-import { IRefreshToken } from 'interfaces/tokens';
+import { IUserAndTokens, IUserJWT } from 'interfaces/auth';
+import { IRefreshToken, ITokenResponse } from 'interfaces/tokens';
 import { PrismaService } from 'modules/prisma/prisma.service';
 import { UserService } from 'modules/user/user.service';
 import { v4 } from 'uuid';
@@ -18,7 +18,7 @@ export class TokenService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
   ) {}
-  async generateTokens(user: IUserJWT, agent: string) {
+  async generateTokens(user: IUserJWT, agent: string): Promise<ITokenResponse> {
     const payload = { user };
 
     const accuseToken =
@@ -31,7 +31,10 @@ export class TokenService {
     return { accuseToken, refreshToken };
   }
 
-  async refreshToken(refreshToken: string, agent: string) {
+  async refreshToken(
+    refreshToken: string,
+    agent: string,
+  ): Promise<IUserAndTokens> {
     const currentToken: IRefreshToken | null = await this.prismaService.token
       .findUnique({
         where: {
@@ -54,8 +57,11 @@ export class TokenService {
     return { ...user, token: tokens };
   }
 
-  private async generateRefreshToken(userId: string, agent: string) {
-    const _token = await this.prismaService.token
+  private async generateRefreshToken(
+    userId: string,
+    agent: string,
+  ): Promise<IRefreshToken> {
+    const _token: IRefreshToken | null = await this.prismaService.token
       .findFirst({
         where: {
           userId,

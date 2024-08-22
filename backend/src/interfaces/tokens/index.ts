@@ -9,3 +9,6 @@ export interface ITokenResponse {
   accuseToken: string;
   refreshToken: IRefreshToken;
 }
+export interface IAccuseToken {
+  accuseToken: string;
+}

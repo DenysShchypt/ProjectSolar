@@ -1,5 +1,5 @@
 import { $Enums, Provider } from '@prisma/client';
-import { ITokenResponse } from 'interfaces/tokens';
+import { IAccuseToken, ITokenResponse } from 'interfaces/tokens';
 
 export interface IUserJWT {
   id: string;
@@ -15,4 +15,11 @@ export interface IUserAndTokens extends IUserJWT {
   verifyLink: boolean;
   picture?: string;
   token: ITokenResponse;
+}
+export interface IUserAndAccuseToken extends IUserJWT {
+  provider?: Provider;
+  providerId?: string;
+  verifyLink: boolean;
+  picture?: string;
+  token: IAccuseToken;
 }
