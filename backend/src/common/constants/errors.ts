@@ -1,8 +1,11 @@
 export const AppError = {
   USER_EXIST: 'User  with this email already exists',
+  USER_CREATE_ERROR: 'Error create User',
+  REGISTER_USER_ERROR: 'User registration failed',
   USER_NOT_EXIST: 'User with this email does not exist',
   INVALID_CREDENTIALS: 'Invalid credentials',
   INVALID_TOKEN: 'Invalid token',
+  TOKEN_NOT_FOUND: 'Token not found',
   USER_NOT_FOUND: 'User not found',
   WRONG_DATA: 'Wrong data',
   ASSET_NOT_FOUND: 'Asset not found',
