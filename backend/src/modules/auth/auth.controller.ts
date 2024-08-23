@@ -18,17 +18,18 @@ import { UserAgent } from '../../../libs/decorators/userAgent.decorator';
 import {
   ResponseLogin,
   ResponseRefreshTokenAndUser,
-  ResponseRegister,
   ResponseRegisterVerify,
 } from './responses';
 import { IUserAndTokens } from 'interfaces/auth';
 import { Cookies } from '../../../libs/decorators/cookies.decorator';
 import { TokenService } from 'modules/token/token.service';
+import { OAuth2Client } from 'google-auth-library';
+import { Provider } from '@prisma/client';
 
-// const oauth2Client = new OAuth2Client(
-//   process.env.GOOGLE_CLIENT_ID,
-//   process.env.GOOGLE_SECRET,
-// );
+const oauth2Client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_SECRET,
+);
 @ApiTags('API')
 @Controller('auth')
 export class AuthController {
@@ -40,16 +41,20 @@ export class AuthController {
     private readonly tokenService: TokenService,
   ) {}
 
-  @ApiResponse({ status: 201, type: ResponseRegister })
+  @ApiResponse({
+    status: 201,
+    description: 'User registered successfully, no content returned',
+  })
   @Post('register')
   async register(
     @Body() dto: RegisterDTO,
     @UserAgent() agent: string,
     @Res() res: Response,
   ): Promise<void> {
-    const newUser = await this.authService.registerUser(dto, agent);
-
-    res.status(HttpStatus.OK).json({ ...newUser });
+    await this.authService.registerUser(dto, agent);
+    // delete newUser.token; ???
+    // res.status(HttpStatus.OK).json({ ...newUser }); ???
+    res.status(HttpStatus.CREATED).send();
   }
 
   @ApiResponse({ status: 200, type: ResponseRegisterVerify })
@@ -62,7 +67,11 @@ export class AuthController {
     const addRefreshTokenToUser = await this.authService.verifyUser(id, agent);
     this.setRefreshTokenToCookiesAfterVerify(addRefreshTokenToUser, res);
   }
-  @ApiResponse({ status: 200, type: ResponseLogin })
+  @ApiResponse({
+    status: 200,
+    type: ResponseLogin,
+    description: 'User logged in successfully',
+  })
   @Post('login')
   async login(
     @Body() dto: LoginDTO,
@@ -73,7 +82,56 @@ export class AuthController {
 
     this.setRefreshTokenToCookies(user, res);
   }
-  @ApiResponse({ status: 200, type: ResponseRefreshTokenAndUser })
+
+  @ApiResponse({
+    status: 200,
+    type: ResponseLogin,
+    description: 'User logged in successfully',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User registered successfully, no content returned',
+  })
+  @Post('google')
+  async google(
+    @Body('token') token: string,
+    @UserAgent() agent: string,
+    @Res() res: Response,
+  ) {
+    const ticket = await oauth2Client.verifyIdToken({
+      idToken: token,
+      audience: this.configService.get('google_client_id'),
+    });
+
+    const payload = ticket.getPayload();
+
+    const dataUserFromGoogle = {
+      id: payload.sub,
+      email: payload.email,
+      lastName: payload.family_name,
+      firstName: payload.given_name,
+      picture: payload.picture,
+      providerId: payload.sub,
+      provider: Provider.GOOGLE,
+    };
+
+    const userRegisterFromGoogle = await this.authService.registerUser(
+      dataUserFromGoogle,
+      agent,
+    );
+
+    if (userRegisterFromGoogle.verifyLink) {
+      this.setRefreshTokenToCookies(userRegisterFromGoogle, res);
+    } else {
+      res.status(HttpStatus.CREATED).send();
+    }
+  }
+
+  @ApiResponse({
+    status: 200,
+    type: ResponseRefreshTokenAndUser,
+    description: 'User refreshed in successfully',
+  })
   @Post('refresh-token')
   async refreshToken(
     @Cookies(AuthController.REFRESH_TOKEN) refreshToken: string,
