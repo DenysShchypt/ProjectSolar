@@ -15,19 +15,24 @@ export interface IPropsRegister<
   loading: boolean;
 }
 
+export interface IAccuseToken{
+  accuseToken: string;
+}
+
 export interface IAuthState {
-  user: IPublicUser;
+  user: IUser|null;
   isLoading: boolean;
 }
 
-export interface IPublicUser {
+export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
   roles: Role[];
-  token: string;
-  verifyLink: string;
+  picture?: string;
+  verifyLink: boolean;
+  token: IAccuseToken;
 }
 
 export interface IFormData extends FieldValues {
@@ -41,11 +46,14 @@ export interface IFormDataRegister extends IFormData {
   passwordRepeat: string;
 }
 
-export interface AuthGoogleData {
-  token: string;
-}
-
 enum Role {
   "ADMIN",
   "USER",
+}
+
+export interface IGoogleToken{
+  token: string;
+}
+export interface IAccuseToken{
+  accuseToken: string;
 }

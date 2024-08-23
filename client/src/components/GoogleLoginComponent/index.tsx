@@ -1,9 +1,13 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import {
+  CredentialResponse,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from '@react-oauth/google';
 import { useAppDispatch } from '../../utils/hooks';
+import { registerOrLoginGoogle } from '../../store/thunks/auth';
 
-
-const GoogleLoginComponent: React.FC = (): React.ReactElement => {
+export const GoogleLoginComponent: React.FC = (): React.ReactElement => {
   const navigate: NavigateFunction = useNavigate();
   const dispatch = useAppDispatch();
   const handleError = (error: void) => {
@@ -12,7 +16,7 @@ const GoogleLoginComponent: React.FC = (): React.ReactElement => {
 
   const responseGoogle = async (response: CredentialResponse) => {
     await dispatch(
-      registerAuthGoogleUsers({ token: response.credential as string }),
+      registerOrLoginGoogle({ token: response.credential as string }),
     );
     navigate('/');
   };
@@ -29,5 +33,4 @@ const GoogleLoginComponent: React.FC = (): React.ReactElement => {
       />
     </GoogleOAuthProvider>
   );
-  
 };
