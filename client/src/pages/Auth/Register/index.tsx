@@ -10,6 +10,7 @@ import {
   WrapperTextForLink,
 } from './styled';
 import { IPropsRegister } from '../../../common/types/auth';
+import { GoogleLoginComponent } from '../../../components/GoogleLoginComponent';
 
 const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
   const {
@@ -70,6 +71,10 @@ const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
       </WrapperRegisterInputs>
       <button type="submit">Register</button>
       <WrapperTextForLink>
+        <div>
+        <h3>Register from Google</h3>
+      <GoogleLoginComponent/>
+      </div>
         <TextForLink>
           Already have an account?{' '}
           <AccentTextForLink to="/login"> Login</AccentTextForLink>

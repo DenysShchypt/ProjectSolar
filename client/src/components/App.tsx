@@ -1,23 +1,21 @@
 import { Route, Routes } from 'react-router-dom';
 import AuthRootComponent from '../pages/Auth';
-import { GoogleLoginComponent } from "./GoogleLoginComponent";
+import Home from '../pages/Home';
 
 function App() {
   return (
     <>
-      <h1 style={{ textAlign: 'center' }}>Hello team</h1>
       <Routes>
         {/* <Route element={<Layout />}> */}
-
+        {/* <Route element={<PrivateRoute/>}> */}
+      <Route path="/" element={<Home />} />
+        {/* </Route> */}
         <Route path="login" element={<AuthRootComponent />} />
         <Route path="register" element={<AuthRootComponent />} />
         {/* </Route> */}
       </Routes>
-      <h1 style={{ textAlign: "center" }}>Hello team!</h1>
-      <div>
-        <h3>Register from Google</h3>
-      <GoogleLoginComponent/>
-      </div>
+      {/* <h1 style={{ textAlign: "center" }}>Hello team!</h1> */}
+      
     </>
   );
 }
