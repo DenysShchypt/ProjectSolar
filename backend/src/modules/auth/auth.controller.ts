@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -54,7 +55,7 @@ export class AuthController {
     await this.authService.registerUser(dto, agent);
     // delete newUser.token; ???
     // res.status(HttpStatus.OK).json({ ...newUser }); ???
-    res.status(HttpStatus.CREATED).send();
+    res.sendStatus(HttpStatus.CREATED);
   }
 
   @ApiResponse({ status: 200, type: ResponseRegisterVerify })
@@ -123,7 +124,7 @@ export class AuthController {
     if (userRegisterFromGoogle.verifyLink) {
       this.setRefreshTokenToCookies(userRegisterFromGoogle, res);
     } else {
-      res.status(HttpStatus.CREATED).send();
+      res.sendStatus(HttpStatus.CREATED);
     }
   }
 
@@ -143,6 +144,32 @@ export class AuthController {
     const user = await this.tokenService.refreshToken(refreshToken, agent);
 
     this.setRefreshTokenToCookies(user, res);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'User logout successfully',
+  })
+  @Get('logout')
+  async logout(
+    @Res() res: Response,
+    @Req() req,
+    @Cookies(AuthController.REFRESH_TOKEN) refreshToken: string,
+  ): Promise<void> {
+    if (!refreshToken) {
+      res.sendStatus(HttpStatus.OK);
+      return;
+    }
+    await this.authService.logout(refreshToken);
+
+    res.cookie(AuthController.REFRESH_TOKEN, '', {
+      expires: new Date(),
+      httpOnly: true,
+      // secure: true,
+      sameSite: 'lax',
+      path: '/login',
+    });
+    res.sendStatus(HttpStatus.OK);
   }
 
   private setRefreshTokenToCookiesAfterVerify(
