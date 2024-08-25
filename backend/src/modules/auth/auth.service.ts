@@ -89,4 +89,14 @@ export class AuthService {
 
     return { ...user, token };
   }
+
+  async logout(refreshToken: string): Promise<void> {
+    await this.prismaService.token
+      .delete({ where: { token: refreshToken } })
+      .catch((error) => {
+        this.logger.error(`${AppError.WRONG_DATA}:${error.message}`);
+        return null;
+      });
+    return;
+  }
 }
