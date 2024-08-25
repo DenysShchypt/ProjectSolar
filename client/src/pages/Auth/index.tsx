@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { instance } from '../../utils/axios';
 import { useAppDispatch } from '../../utils/hooks';
 import { setUser } from '../../store/slice/auth';
+import { AppError } from '../../common/errors';
 
 const AuthRootComponent: FC = (): JSX.Element => {
   const location = useLocation();
@@ -26,16 +27,14 @@ const AuthRootComponent: FC = (): JSX.Element => {
         const userData = { email, password };
       const user = await instance.post('/auth/login', userData);
         await dispatch(setUser(user.data))
-        console.log(user.data);
-        
        navigate("/")
-    
       } catch (e: any) {
         return e.message
       }
     } else {
       if (password === passwordRepeat) {
-        const userData = {
+      try {
+          const userData = {
           firstName,
           lastName,
           email,
@@ -43,9 +42,13 @@ const AuthRootComponent: FC = (): JSX.Element => {
           passwordRepeat,
         };
         const newUser = await instance.post('/auth/register', userData);
-        console.log(newUser);
+          await dispatch(setUser(newUser.data))
+       navigate("/")
+      } catch (e:any) {
+        return e.message
+      }
       } else {
-        throw new Error('Your passwords do not match.');
+        throw new Error(AppError.WRONG_PASSWORD_DO_NOT_MATCH);
       }
     }
   };
@@ -55,14 +58,15 @@ const AuthRootComponent: FC = (): JSX.Element => {
       <form onSubmit={handleSubmit}>
         <AuthWrapper>
           {location.pathname === '/login' ? (
-            <Login setEmail={setEmail} setPassword={setPassword} />
+            <Login setEmail={setEmail} setPassword={setPassword} navigate={navigate} />
           ) : (
             <Register
               setFirstName={setFirstName}
               setLastName={setLastName}
               setEmail={setEmail}
               setPassword={setPassword}
-              setPasswordRepeat={setPasswordRepeat}
+                setPasswordRepeat={setPasswordRepeat}
+                navigate={navigate}
             />
           )}
         </AuthWrapper>

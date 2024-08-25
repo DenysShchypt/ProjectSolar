@@ -3,6 +3,7 @@ import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 export interface IPropsLogin {
   setPassword: (value: string) => void;
   setEmail: (value: string) => void;
+  navigate: (to: string) => void;
 }
 
 export interface IPropsRegister {
@@ -11,6 +12,7 @@ export interface IPropsRegister {
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   setPasswordRepeat: (value: string) => void;
+  navigate: (to: string) => void;
 }
 // export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
 //   navigate: (to: string) => void;
@@ -34,6 +36,7 @@ export interface IAccuseToken{
 export interface IAuthState {
   user: IUser|null;
   isLoading: boolean;
+  isLogged?: boolean;
 }
 
 export interface IUser {

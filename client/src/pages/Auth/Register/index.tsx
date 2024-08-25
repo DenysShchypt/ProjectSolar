@@ -19,6 +19,7 @@ const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
     setEmail,
     setPassword,
     setPasswordRepeat,
+    navigate
   } = props;
   return (
     <>
@@ -77,7 +78,7 @@ const Register: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
       </div>
         <TextForLink>
           Already have an account?{' '}
-          <AccentTextForLink to="/login"> Login</AccentTextForLink>
+          <AccentTextForLink onClick={()=>navigate("/login")}> Login</AccentTextForLink>
         </TextForLink>
       </WrapperTextForLink>
     </>

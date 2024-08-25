@@ -52,9 +52,10 @@ export const TextForLink = styled.p`
   color: black;
 `;
 
-export const AccentTextForLink = styled(NavLink)`
+export const AccentTextForLink = styled.span`
   font-weight: var(--font-weight-bold);
-  text-decoration: underline;
-  text-decoration-skip-ink: none;
+  cursor: pointer;
+  /* text-decoration: underline;
+  text-decoration-skip-ink: none; */
   color: teal;
 `;

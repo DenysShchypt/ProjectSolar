@@ -12,7 +12,7 @@ import { IPropsLogin } from '../../../common/types/auth';
 import { FC } from 'react';
 
 const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
-  const { setEmail, setPassword } = props;
+  const { setEmail, setPassword, navigate } = props;
 
   return (
     <>
@@ -42,7 +42,7 @@ const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
       <WrapperTextForLink>
         <TextForLink>
           Don’t have an account?{' '}
-          <AccentTextForLink to="/register">Register </AccentTextForLink>
+          <AccentTextForLink onClick={()=>navigate("/register")}>Register </AccentTextForLink>
         </TextForLink>
       </WrapperTextForLink>
     </>
