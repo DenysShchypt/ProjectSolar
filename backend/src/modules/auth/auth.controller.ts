@@ -206,6 +206,8 @@ export class AuthController {
         path: '/',
       },
     );
+
+    delete userAndToken.token.refreshToken;
     res.status(HttpStatus.OK).json({ ...userAndToken });
   }
 }
