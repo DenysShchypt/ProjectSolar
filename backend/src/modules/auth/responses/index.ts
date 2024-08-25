@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseAccuseToken, ResponseTokens } from 'modules/token/responses';
+import { ResponseAccuseToken } from 'modules/token/responses';
 import { ResponseCreateNewUser } from 'modules/user/responses';
 
 export class ResponseRegister extends ResponseCreateNewUser {
@@ -8,8 +8,8 @@ export class ResponseRegister extends ResponseCreateNewUser {
 }
 
 export class ResponseRegisterVerify extends ResponseCreateNewUser {
-  @ApiProperty({ type: ResponseTokens })
-  token: ResponseTokens;
+  @ApiProperty({ type: ResponseAccuseToken })
+  token: ResponseAccuseToken;
 }
 export class ResponseLogin extends ResponseRegisterVerify {}
 export class ResponseRefreshTokenAndUser extends ResponseRegisterVerify {}

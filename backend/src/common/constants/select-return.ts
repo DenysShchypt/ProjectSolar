@@ -4,8 +4,6 @@ export const USER_SELECT_FIELDS = {
   lastName: true,
   id: true,
   roles: true,
-  provider: true,
-  providerId: true,
   picture: true,
   verifyLink: true,
 };
