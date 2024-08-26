@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Provider, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import { IsBoolean, IsEnum, IsString } from 'class-validator';
 
 export class ResponseCreateNewUser {
@@ -22,14 +22,6 @@ export class ResponseCreateNewUser {
   @ApiProperty({ enum: Role, enumName: 'USER' })
   @IsEnum(Role, { each: true })
   roles: Role[];
-
-  @ApiProperty({ enum: Provider, enumName: 'GOOGLE' })
-  @IsEnum(Provider)
-  provider?: Provider;
-
-  @ApiProperty({ example: 'sdg5468gfh68f4dsh8642526' })
-  @IsString()
-  providerId?: string;
 
   @ApiProperty({ example: false })
   @IsBoolean()

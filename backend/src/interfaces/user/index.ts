@@ -1,4 +1,4 @@
-import { $Enums, Provider } from '@prisma/client';
+import { $Enums } from '@prisma/client';
 
 export interface INewUser {
   id: string;
@@ -7,8 +7,6 @@ export interface INewUser {
   lastName?: string;
   password?: string;
   passwordRepeat?: string;
-  provider?: Provider;
-  providerId?: string;
   verifyLink: boolean;
   picture?: string;
   roles: $Enums.Role[];
