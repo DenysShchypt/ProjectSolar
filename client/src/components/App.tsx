@@ -2,10 +2,11 @@ import { Route, Routes } from 'react-router-dom';
 import AuthRootComponent from '../pages/Auth';
 import Home from '../pages/Home';
 import PrivateRoute from '../utils/router/privateRoute';
+import { LayoutComponent } from './Layout';
 
 function App() {
   return (
-    <>
+    <LayoutComponent>
       <Routes>
         {/* <Route element={<Layout />}> */}
         <Route element={<PrivateRoute/>}>
@@ -15,9 +16,7 @@ function App() {
         <Route path="register" element={<AuthRootComponent />} />
         {/* </Route> */}
       </Routes>
-      {/* <h1 style={{ textAlign: "center" }}>Hello team!</h1> */}
-      
-    </>
+    </LayoutComponent>
   );
 }
 

@@ -19,8 +19,7 @@ export const Main: React.FC = () => {
           <BrowserRouter>
           <App />
         </BrowserRouter>
-        </ThemeProvider>
-        
+        </ThemeProvider>    
       </Provider>
     </React.StrictMode>
   );

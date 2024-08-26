@@ -7,4 +7,5 @@ export const AppError = {
   Required_lastName: 'Enter your lastName',
   Wrong_email: 'Email is not correct',
   Wrong_password: 'Your password is must include different signs',
+  Wrong_useTheme:'useTheme must be used within a ThemeProvider',
 };
