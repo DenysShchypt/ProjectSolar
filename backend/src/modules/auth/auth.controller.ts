@@ -167,7 +167,7 @@ export class AuthController {
       httpOnly: true,
       // secure: true,
       sameSite: 'lax',
-      path: '/login',
+      path: '/',
     });
     res.sendStatus(HttpStatus.OK);
   }
