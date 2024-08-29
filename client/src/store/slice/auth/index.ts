@@ -15,6 +15,7 @@ const initialState: IAuthState = {
     },
     verifyLink: false,
   },
+  isLogged:false,
   isLoading: false,
 };
 
@@ -25,6 +26,7 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
       state.isLoading = false;
+      state.isLogged = true;
     },
     setLoading(state, action) {
       state.isLoading = action.payload;
@@ -46,4 +48,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setUser, setLoading } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

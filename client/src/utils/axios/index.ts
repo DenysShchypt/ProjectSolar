@@ -9,6 +9,7 @@ import { IUser } from '../../common/types/auth';
 let isRefreshing = false;
 let refreshSubscribers: Array<(token: string) => void> = [];
 
+
 export const instance = axios.create({
   baseURL: 'http://localhost:4004/api',
   headers: { 'Content-Type': 'application/json' },

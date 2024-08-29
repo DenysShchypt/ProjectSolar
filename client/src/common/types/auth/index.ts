@@ -1,19 +1,33 @@
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
-export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
+export interface IPropsLogin {
+  setPassword: (value: string) => void;
+  setEmail: (value: string) => void;
   navigate: (to: string) => void;
-  register: UseFormRegister<IFormData>;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
 }
-export interface IPropsRegister<
-  TFieldValues extends IFormDataRegister = IFormDataRegister,
-> {
-  register: UseFormRegister<IFormDataRegister | IFormData>;
+
+export interface IPropsRegister {
+  setFirstName: (value: string) => void;
+  setLastName: (value: string) => void;
+  setEmail: (value: string) => void;
+  setPassword: (value: string) => void;
+  setPasswordRepeat: (value: string) => void;
   navigate: (to: string) => void;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
 }
+// export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
+//   navigate: (to: string) => void;
+//   register: UseFormRegister<IFormData>;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
+// export interface IPropsRegister<
+//   TFieldValues extends IFormDataRegister = IFormDataRegister,
+// > {
+//   register: UseFormRegister<IFormDataRegister | IFormData>;
+//   navigate: (to: string) => void;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
 
 export interface IAccuseToken{
   accuseToken: string;
@@ -22,6 +36,7 @@ export interface IAccuseToken{
 export interface IAuthState {
   user: IUser|null;
   isLoading: boolean;
+  isLogged?: boolean;
 }
 
 export interface IUser {
@@ -47,8 +62,8 @@ export interface IFormDataRegister extends IFormData {
 }
 
 enum Role {
-  "ADMIN",
-  "USER",
+  'ADMIN',
+  'USER',
 }
 
 export interface IGoogleToken{
