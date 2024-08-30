@@ -210,4 +210,9 @@ export class AuthController {
     delete userAndToken.token.refreshToken;
     res.status(HttpStatus.OK).json({ ...userAndToken });
   }
+
+  @Get('check-server')
+  async checkServer(): Promise<string> {
+    return 'Server is running!';
+  }
 }
