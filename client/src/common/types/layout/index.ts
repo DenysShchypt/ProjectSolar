@@ -9,6 +9,7 @@ export interface ITheme {
   colors: {
     primary: string;
     background: string;
+    secondaryBackground: string;
     text: string;
     border: string;
   };

@@ -8,11 +8,19 @@ import { instance } from '../../utils/axios';
 import { useAppDispatch } from '../../utils/hooks';
 import { setUser } from '../../store/slice/auth';
 import { AppError } from '../../common/errors';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoginSchema } from '../../utils/yup';
 
 const AuthRootComponent: FC = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ resolver: yupResolver(LoginSchema) });
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -20,33 +28,35 @@ const AuthRootComponent: FC = (): JSX.Element => {
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handleSubmitForm = async (data: any) => {
     if (location.pathname === '/login') {
       try {
-        const userData = { email, password };
-      const user = await instance.post('/auth/login', userData);
-        await dispatch(setUser(user.data))
-       navigate("/")
+        const userData = {
+          email: data.email,
+          password: data.password,
+        };
+        const user = await instance.post('/auth/login', userData);
+        await dispatch(setUser(user.data));
+        navigate('/');
       } catch (e: any) {
-        return e.message
+        return e.message;
       }
     } else {
       if (password === passwordRepeat) {
-      try {
+        try {
           const userData = {
-          firstName,
-          lastName,
-          email,
-          password,
-          passwordRepeat,
-        };
-        const newUser = await instance.post('/auth/register', userData);
-          await dispatch(setUser(newUser.data))
-       navigate("/")
-      } catch (e:any) {
-        return e.message
-      }
+            firstName,
+            lastName,
+            email,
+            password,
+            passwordRepeat,
+          };
+          const newUser = await instance.post('/auth/register', userData);
+          await dispatch(setUser(newUser.data));
+          navigate('/');
+        } catch (e: any) {
+          return e.message;
+        }
       } else {
         throw new Error(AppError.WRONG_PASSWORD_DO_NOT_MATCH);
       }
@@ -55,18 +65,18 @@ const AuthRootComponent: FC = (): JSX.Element => {
 
   return (
     <AuthContainer>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(handleSubmitForm)}>
         <AuthWrapper>
           {location.pathname === '/login' ? (
-            <Login setEmail={setEmail} setPassword={setPassword} navigate={navigate} />
+            <Login navigate={navigate} register={register} errors={errors} />
           ) : (
             <Register
               setFirstName={setFirstName}
               setLastName={setLastName}
               setEmail={setEmail}
               setPassword={setPassword}
-                setPasswordRepeat={setPasswordRepeat}
-                navigate={navigate}
+              setPasswordRepeat={setPasswordRepeat}
+              navigate={navigate}
             />
           )}
         </AuthWrapper>

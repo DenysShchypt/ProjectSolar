@@ -1,9 +1,17 @@
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
-export interface IPropsLogin {
-  setPassword: (value: string) => void;
-  setEmail: (value: string) => void;
+export interface IFormData {
+  email: string;
+  password: string;
+}
+
+export interface IPropsLogin<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any
+> {
   navigate: (to: string) => void;
+  register: UseFormRegister<IFormData>
+  errors: FieldErrors<TFieldValues>
 }
 
 export interface IPropsRegister {

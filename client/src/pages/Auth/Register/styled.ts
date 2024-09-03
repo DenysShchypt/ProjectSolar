@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { NavLink } from 'react-router-dom';
 
 export const RegisterTitle = styled.h2`
   margin-bottom: 8px;
@@ -49,7 +48,7 @@ export const TextForLink = styled.p`
   font-size: 12px;
   line-height: 1.17;
   letter-spacing: -0.03em;
-  color: black;
+ color: ${({ theme }) => theme.colors.text};
 `;
 
 export const AccentTextForLink = styled.span`
@@ -58,4 +57,10 @@ export const AccentTextForLink = styled.span`
   /* text-decoration: underline;
   text-decoration-skip-ink: none; */
   color: teal;
+`;
+
+export const ErrorMessage = styled.span`
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 4px;
 `;

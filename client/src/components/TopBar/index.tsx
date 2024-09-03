@@ -1,27 +1,40 @@
-import { TopBarContainer } from './styled';
+import {
+  InputBtnContainer,
+  InputBtnWrapper,
+  InputTopBar,
+  InputTopBarsContainer,
+  InputTopBarSpan,
+  TopBarContainer,
+  TopBarIconsContainer,
+} from './styled';
 import { useAppSelector, useTheme } from '../../utils/hooks';
-import { IoMdNotificationsOutline, IoIosSearch } from "react-icons/io";
-import { MdModeNight, MdOutlineLightMode } from "react-icons/md";
-import { lightTheme, darkTheme } from '../../theme';
+import { IoMdNotificationsOutline, IoIosSearch } from 'react-icons/io';
+import { MdModeNight, MdOutlineLightMode } from 'react-icons/md';
+import { lightTheme } from '../../theme';
 
 export const TopBarComponent = () => {
-    const user = useAppSelector(state => state.auth.user)
-    const { theme, toggleTheme } = useTheme();
+  const user = useAppSelector((state) => state.auth.user);
+  const { theme, toggleTheme } = useTheme();
 
-  return <TopBarContainer>
-        <div>Welcome, {user?.firstName}</div>
-        <div>
-          <button onClick={toggleTheme}>
-          {theme === lightTheme ? (
-                        <MdOutlineLightMode />
-                    ) : (
-                      <MdModeNight />
-                    )}
-          </button>
-        <IoMdNotificationsOutline />
-        
-        
-        <IoIosSearch />
-        </div>
-  </TopBarContainer>;
+  return (
+    <TopBarContainer>
+      <div>Welcome, {user?.firstName}</div>
+      <TopBarIconsContainer>
+        <InputBtnWrapper onClick={toggleTheme}>
+          {theme === lightTheme ? <MdOutlineLightMode /> : <MdModeNight />}
+        </InputBtnWrapper>
+        <InputBtnWrapper>
+          <IoMdNotificationsOutline />
+        </InputBtnWrapper>
+        <InputTopBarSpan>|</InputTopBarSpan>
+        <InputTopBarsContainer>
+          <InputBtnContainer>
+            <IoIosSearch />
+          </InputBtnContainer>
+
+          <InputTopBar placeholder="Search..." />
+        </InputTopBarsContainer>
+      </TopBarIconsContainer>
+    </TopBarContainer>
+  );
 };

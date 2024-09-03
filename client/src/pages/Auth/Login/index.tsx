@@ -1,5 +1,6 @@
 import {
   AccentTextForLink,
+  ErrorMessage,
   RegisterInput,
   RegisterLabel,
   RegisterText,
@@ -12,7 +13,7 @@ import { IPropsLogin } from '../../../common/types/auth';
 import { FC } from 'react';
 
 const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
-  const { setEmail, setPassword, navigate } = props;
+  const { navigate, register, errors } = props;
 
   return (
     <>
@@ -26,23 +27,31 @@ const Login: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
           <RegisterInput
             type="email"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            {...register('email')}
           />
+          {errors.email?.message && (
+            <ErrorMessage>{String(errors.email.message)}</ErrorMessage>
+          )}
         </RegisterLabel>
         <RegisterLabel>
           Password
           <RegisterInput
             type="password"
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password')}
           />
+          {errors.password?.message && (
+            <ErrorMessage>{String(errors.password.message)}</ErrorMessage>
+          )}
         </RegisterLabel>
       </WrapperRegisterInputs>
       <button type="submit">Login</button>
       <WrapperTextForLink>
         <TextForLink>
           Don’t have an account?{' '}
-          <AccentTextForLink onClick={()=>navigate("/register")}>Register </AccentTextForLink>
+          <AccentTextForLink onClick={() => navigate('/register')}>
+            Register{' '}
+          </AccentTextForLink>
         </TextForLink>
       </WrapperTextForLink>
     </>
