@@ -10,7 +10,7 @@ import { setUser } from '../../store/slice/auth';
 import { AppError } from '../../common/errors';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoginSchema } from '../../utils/yup';
+import { LoginSchema, RegisterSchema } from '../../utils/yup';
 
 const AuthRootComponent: FC = (): JSX.Element => {
   const location = useLocation();
@@ -20,13 +20,7 @@ const AuthRootComponent: FC = (): JSX.Element => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({ resolver: yupResolver(LoginSchema) });
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordRepeat, setPasswordRepeat] = useState('');
+  } = useForm({ resolver: yupResolver(location.pathname === '/login'? LoginSchema: RegisterSchema ) });
 
   const handleSubmitForm = async (data: any) => {
     if (location.pathname === '/login') {
@@ -42,14 +36,13 @@ const AuthRootComponent: FC = (): JSX.Element => {
         return e.message;
       }
     } else {
-      if (password === passwordRepeat) {
+      if (data.password === data.passwordRepeat) {
         try {
           const userData = {
-            firstName,
-            lastName,
-            email,
-            password,
-            passwordRepeat,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
           };
           const newUser = await instance.post('/auth/register', userData);
           await dispatch(setUser(newUser.data));
@@ -71,12 +64,9 @@ const AuthRootComponent: FC = (): JSX.Element => {
             <Login navigate={navigate} register={register} errors={errors} />
           ) : (
             <Register
-              setFirstName={setFirstName}
-              setLastName={setLastName}
-              setEmail={setEmail}
-              setPassword={setPassword}
-              setPasswordRepeat={setPasswordRepeat}
               navigate={navigate}
+              register={register}
+              errors={errors}
             />
           )}
         </AuthWrapper>

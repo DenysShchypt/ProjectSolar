@@ -14,13 +14,13 @@ export interface IPropsLogin<
   errors: FieldErrors<TFieldValues>
 }
 
-export interface IPropsRegister {
-  setFirstName: (value: string) => void;
-  setLastName: (value: string) => void;
-  setEmail: (value: string) => void;
-  setPassword: (value: string) => void;
-  setPasswordRepeat: (value: string) => void;
+export interface IPropsRegister<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any
+> {
   navigate: (to: string) => void;
+  register: UseFormRegister<IFormData>
+  errors: FieldErrors<TFieldValues>
 }
 // export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
 //   navigate: (to: string) => void;
