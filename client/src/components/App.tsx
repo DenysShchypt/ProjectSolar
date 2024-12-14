@@ -1,14 +1,22 @@
-import { GoogleLoginComponent } from "./GoogleLoginComponent";
+import { Route, Routes } from 'react-router-dom';
+import AuthRootComponent from '../pages/Auth';
+import Home from '../pages/Home';
+import PrivateRoute from '../utils/router/privateRoute';
+import { LayoutComponent } from './Layout';
 
 function App() {
   return (
-    <>
-      <h1 style={{ textAlign: "center" }}>Hello team!</h1>
-      <div>
-        <h3>Register from Google</h3>
-      <GoogleLoginComponent/>
-      </div>
-    </>
+    <LayoutComponent>
+      <Routes>
+        {/* <Route element={<Layout />}> */}
+        <Route element={<PrivateRoute/>}>
+      <Route path="/" element={<Home />} />
+        </Route>
+        <Route path="login" element={<AuthRootComponent />} />
+        <Route path="register" element={<AuthRootComponent />} />
+        {/* </Route> */}
+      </Routes>
+    </LayoutComponent>
   );
 }
 

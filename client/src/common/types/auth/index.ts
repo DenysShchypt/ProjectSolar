@@ -1,19 +1,41 @@
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
-export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
-  navigate: (to: string) => void;
-  register: UseFormRegister<IFormData>;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
+export interface IFormData {
+  email: string;
+  password: string;
 }
-export interface IPropsRegister<
-  TFieldValues extends IFormDataRegister = IFormDataRegister,
+
+export interface IPropsLogin<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any
 > {
-  register: UseFormRegister<IFormDataRegister | IFormData>;
   navigate: (to: string) => void;
-  errors: FieldErrors<TFieldValues>;
-  loading: boolean;
+  register: UseFormRegister<IFormData>
+  errors: FieldErrors<TFieldValues>
 }
+
+export interface IPropsRegister<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any
+> {
+  navigate: (to: string) => void;
+  register: UseFormRegister<IFormData>
+  errors: FieldErrors<TFieldValues>
+}
+// export interface IPropsLogin<TFieldValues extends IFormData = IFormData> {
+//   navigate: (to: string) => void;
+//   register: UseFormRegister<IFormData>;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
+// export interface IPropsRegister<
+//   TFieldValues extends IFormDataRegister = IFormDataRegister,
+// > {
+//   register: UseFormRegister<IFormDataRegister | IFormData>;
+//   navigate: (to: string) => void;
+//   errors: FieldErrors<TFieldValues>;
+//   loading: boolean;
+// }
 
 export interface IAccuseToken{
   accuseToken: string;
@@ -22,6 +44,7 @@ export interface IAccuseToken{
 export interface IAuthState {
   user: IUser|null;
   isLoading: boolean;
+  isLogged?: boolean;
 }
 
 export interface IUser {
@@ -47,8 +70,8 @@ export interface IFormDataRegister extends IFormData {
 }
 
 enum Role {
-  "ADMIN",
-  "USER",
+  'ADMIN',
+  'USER',
 }
 
 export interface IGoogleToken{

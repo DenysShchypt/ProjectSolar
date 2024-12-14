@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { authSliceReducer } from "./slice/auth";
+import { configureStore } from '@reduxjs/toolkit';
+import { authSliceReducer } from './slice/auth';
 
 const store = configureStore({
   reducer: {
@@ -9,13 +9,13 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActionPaths: [
-          "payload.headers",
-          "payload.config",
-          "payload.request",
-          "payload.config.transformRequest",
-          "payload.config.transformResponse",
+          'payload.headers',
+          'payload.config',
+          'payload.request',
+          'payload.config.transformRequest',
+          'payload.config.transformResponse',
         ],
-        ignoredPaths: ["auth.token", "auth.user"],
+        ignoredPaths: ['auth.token', 'auth.user'],
       },
     }),
 });
